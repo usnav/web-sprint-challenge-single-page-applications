@@ -12,6 +12,7 @@ const initialFormValues = {
     sauce:"",
     toppings: {
         pepperoni: false,
+        
         pineapple: false, 
         ham: false,
         olives: false, 
@@ -22,7 +23,10 @@ const initialFormValues = {
 };
 
 const initialFormErrors = {
-    name: ''
+    name: '', 
+    size: '',
+    sauce: '',
+    special: ''
 };
 
 const initialPizzas = [];
@@ -30,8 +34,11 @@ const initialDisabled = true;
 
 export default function PizzaApp() {
 
-    const [friends, setFriends] = useState([initialPizzas]);
+    const [friends, setFriends] = useState(initialPizzas);
     const [formValues, setFormValues] = useState(initialFormValues);
+    const [formErrors, setFormErrors] = useState(initialFormErrors);
+    const [disabled, setDisabled] = useState(initialDisabled);
+
 
     axios
         .post("https://reqres.in/api/users", newFriend)
@@ -91,8 +98,10 @@ return (
                 submit = {submit}
                 />
 
-                {friends.map((friend) => {
-                    return <Pizza key={friend.id} details={friend} />;
+                {friends.map(friend => {
+                    return (
+                    <Pizza key={friend.id} details={friend} />
+                    )
                 })}
         </div>
 

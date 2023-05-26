@@ -26,11 +26,11 @@ export default function PizzaForm(props) {
 
 return (
     <div className="pizza">
-        <form>
+        <form >
             <h1>Build Your Own Pizza</h1>
 
-            <label>Name for Order:
-                <input
+            <label >Name for Order:
+                <input id="name-input"
                 type="text"
                 name="name"
                 value={value.name}
@@ -170,4 +170,4 @@ return (
     </div>
 )
 
-}
+};
