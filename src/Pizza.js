@@ -3,17 +3,17 @@ import React from "react";
 function Pizza({ details }) {
     if (!details) {
         return <h3>
-            Working fetching your Pizza's details...
+            Working fetching your pizza&apos;s details...
         </h3>;
     }
 
     return (
-        <div className="pizza-container">
-            <p id="name-input">Name of Order: {details.name}</p>
+        <div className="pizza container">
+            <h2>Name of Order: {details.name}</h2>
             <p>Size: {details.size}</p>
             <p>Sauce: {details.sauce}</p>
 
-            {!!details.toppings && !!detaila.toppings.length && (
+            {!!details.toppings && !!details.toppings.length && (
                 <div>
                     toppings:
                     <ul>

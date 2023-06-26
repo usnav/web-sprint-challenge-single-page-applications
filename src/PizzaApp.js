@@ -1,65 +1,46 @@
-import React, { useState, useEffect } from "react";
+
+
 import Pizza from './Pizza';
 import PizzaForm from './PizzaForm';
-import axios from "axios";
-import schema from './Validation/formSchema'
-import * as yup from "yup";
 
 
-const initialFormValues = {
-    name:"",
-    size:"",
-    sauce:"",
-    toppings: {
-        pepperoni: false,
-        
-        pineapple: false, 
-        ham: false,
-        olives: false, 
-        bacon: false, 
-        cheddar: false
-    }, 
-    special:""
-};
 
-const initialFormErrors = {
-    name: '', 
-    size: '',
-    sauce: '',
-    special: ''
-};
+
 
 const initialPizzas = [];
 const initialDisabled = true;
 
 export default function PizzaApp() {
 
+    const navigate = useNavigate()
+    const onPizzaClick = ()=> {
+        navigate('/pizza')
+    }
+
     const [friends, setFriends] = useState(initialPizzas);
-    const [formValues, setFormValues] = useState(initialFormValues);
-    const [formErrors, setFormErrors] = useState(initialFormErrors);
-    const [disabled, setDisabled] = useState(initialDisabled);
+    
+    
 
+   
 
-    axios
-        .post("https://reqres.in/api/users", newFriend)
-        .then((res) => {
+    const postNewFriend = newFriend => {
+    axios.post("https://reqres.in/api/orders", newFriend)
+        .then(res => {
             setFriends([...friends, res.data]);
-        })
-        .catch((err) => {
-            debugger;
-        })
-        .finally(() => {
             setFormValues(initialFormValues);
-        });
+        })
+        .catch(err => {
+            console.log(err)
+            // debugger
+        })
+       
+    }
 
 
 
 
-const inputChange = (name, value) => {
-    setFormValues({
-        ...formValues, [name]: value
-    });
-};
+
+
 
 const checkboxChange = (name, isChecked) => {
     setFormValues({
@@ -71,38 +52,46 @@ const checkboxChange = (name, isChecked) => {
     });
 };
 
-const submit = () => {
+const formSubmit = () => {
     const newFriend = {
-        name: formValues.name, 
-        size: formValues.size, 
-        sauce: formValues.sauce, 
+        name: formValues.name.trim(), 
+        size: formValues.size.trim(), 
+        sauce: formValues.sauce.trim(), 
         toppings: Object.keys(formValues.toppings).filter(
-            (hob) => formValues.toppings[hob]
+            hob => formValues.toppings[hob]
         ), 
-        special: formValues.special
+        special: formValues.special.trim()
     };
     postNewFriend(newFriend);
 };
+
+useEffect(() => {
+    getFriends()
+}, [])
+
+
 
 return (
     <div className="App">
         <div className="container">
             <header>
-                <h1> Pizza </h1>
+                <h1> Pizza !!</h1>
             </header>
 
             <PizzaForm
                 values = {formValues}
-                inputChange = {inputChange} 
+                change = {handleChange} 
                 checkboxChange = {checkboxChange}
-                submit = {submit}
+                submit = {handleSubmit}
+                disabled = {disabled}
+                errors = {formErrors}
+                
                 />
 
-                {friends.map(friend => {
+                 {friends.map(friend => {
                     return (
-                    <Pizza key={friend.id} details={friend} />
-                    )
-                })}
+                    <Pizza key={friend.id} details={friend} /> )
+                })} 
         </div>
 
     </div>
